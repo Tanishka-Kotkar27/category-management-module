@@ -46,4 +46,10 @@ public class GlobalExceptionHandler {
                 .body(new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                         "Something went wrong: " + ex.getMessage()));
     }
+    
+    @ExceptionHandler(DuplicateSkuException.class)
+    public ResponseEntity<ApiErrorResponse> handleDuplicateSku(DuplicateSkuException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ApiErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage()));
+    }
 }
