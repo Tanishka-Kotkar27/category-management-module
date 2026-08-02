@@ -124,13 +124,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private User findOrCreateCustomer(String customerName, String customerEmail) {
-        return userRepository.findByCustomerNameIgnoreCase(customerName.trim())
-                .orElseGet(() -> {
-                    User newUser = new User();
-                    newUser.setCustomerName(customerName.trim());
-                    newUser.setEmail(customerEmail != null ? customerEmail.trim() : null);
-                    return userRepository.save(newUser);
-                });
+        String trimmedName = customerName.trim();
+
+        if (customerEmail != null && !customerEmail.isBlank()) {
+            var existingByEmail = userRepository.findByEmailIgnoreCase(customerEmail.trim());
+            if (existingByEmail.isPresent()) {
+                return existingByEmail.get();
+            }
+        }
+
+        String[] parts = trimmedName.split("\\s+", 2);
+        String firstName = parts[0];
+        String lastName = parts.length > 1 ? parts[1] : null;
+
+        User newUser = new User();
+        newUser.setFirstName(firstName);
+        newUser.setLastName(lastName);
+        newUser.setEmail(customerEmail != null && !customerEmail.isBlank() ? customerEmail.trim() : null);
+        newUser.setStatus(true);
+        return userRepository.save(newUser);
     }
 
     private Order findOrderOrThrow(Long id) {
@@ -153,7 +165,7 @@ public class OrderServiceImpl implements OrderService {
         return new OrderResponse(
                 order.getOrderId(),
                 order.getCustomer().getUserId(),
-                order.getCustomer().getCustomerName(),
+                order.getCustomer().getFullName(),
                 order.getTotalAmount(),
                 order.getOrderStatus(),
                 order.getShippingAddress(),

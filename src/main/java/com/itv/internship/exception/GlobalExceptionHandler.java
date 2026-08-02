@@ -38,6 +38,12 @@ public class GlobalExceptionHandler {
                 .body(new ApiErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage()));
     }
 
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ResponseEntity<ApiErrorResponse> handleDuplicateEmail(DuplicateEmailException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ApiErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage()));
+    }
+
     @ExceptionHandler(InvalidOrderStatusTransitionException.class)
     public ResponseEntity<ApiErrorResponse> handleInvalidTransition(InvalidOrderStatusTransitionException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
