@@ -1,0 +1,7 @@
+package com.itv.internship.exception;
+
+public class RefundNotAllowedException extends RuntimeException {
+    public RefundNotAllowedException(String message) {
+        super(message);
+    }
+}
