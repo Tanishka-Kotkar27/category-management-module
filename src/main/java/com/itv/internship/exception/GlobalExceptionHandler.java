@@ -73,6 +73,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(new ApiErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage()));
     }
+    
+    @ExceptionHandler(ShippingAlreadyExistsException.class)
+    public ResponseEntity<ApiErrorResponse> handleShippingAlreadyExists(ShippingAlreadyExistsException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ApiErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage()));
+    }
 
     @ExceptionHandler(RefundNotAllowedException.class)
     public ResponseEntity<ApiErrorResponse> handleRefundNotAllowed(RefundNotAllowedException ex) {
