@@ -97,6 +97,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ApiErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage()));
     }
+    
+    @ExceptionHandler(InvalidCouponException.class)
+    public ResponseEntity<ApiErrorResponse> handleInvalidCoupon(InvalidCouponException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ApiErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+    }
+
+    @ExceptionHandler(DuplicateCouponCodeException.class)
+    public ResponseEntity<ApiErrorResponse> handleDuplicateCouponCode(DuplicateCouponCodeException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ApiErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage()));
+    }
 
     @ExceptionHandler(RefundNotAllowedException.class)
     public ResponseEntity<ApiErrorResponse> handleRefundNotAllowed(RefundNotAllowedException ex) {
