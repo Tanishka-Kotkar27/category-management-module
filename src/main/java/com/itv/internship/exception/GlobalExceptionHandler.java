@@ -79,6 +79,24 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(new ApiErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage()));
     }
+    
+    @ExceptionHandler(ProductNotPurchasedException.class)
+    public ResponseEntity<ApiErrorResponse> handleProductNotPurchased(ProductNotPurchasedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ApiErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage()));
+    }
+
+    @ExceptionHandler(DuplicateReviewException.class)
+    public ResponseEntity<ApiErrorResponse> handleDuplicateReview(DuplicateReviewException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ApiErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage()));
+    }
+
+    @ExceptionHandler(UnauthorizedReviewActionException.class)
+    public ResponseEntity<ApiErrorResponse> handleUnauthorizedReview(UnauthorizedReviewActionException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ApiErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage()));
+    }
 
     @ExceptionHandler(RefundNotAllowedException.class)
     public ResponseEntity<ApiErrorResponse> handleRefundNotAllowed(RefundNotAllowedException ex) {
